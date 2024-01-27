@@ -1,7 +1,12 @@
-from utils import dicts
+import pytest
+
+from utils.dicts import get_val
 
 
-def test_get_val():
-    assert dicts.get_val({"name": "Alisa"}, "name") == "Alisa"
-    assert dicts.get_val({"user": "Alisa"}, "name", "git") == "git"
-    assert dicts.get_val({}, "name", "bazaar") == "bazaar"
+@pytest.mark.parametrize("collection, key, default, expected", [
+    ({"name": "Alisa"}, "name", 'git', "Alisa"),
+    ({"user": "Alisa"}, "name", 'git', 'git'),
+    ({}, "name", "bazaar", "bazaar")
+])
+def test_get_val(collection, key, default, expected):
+    assert get_val(collection, key, default) == expected
